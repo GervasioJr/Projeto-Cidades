@@ -19,12 +19,10 @@ public class Dados {
     public List<Estado>getEstados(){
         
         List<Estado> lista = new ArrayList();
+        Conexao conexao = new Conexao();
+        String sql = "SELECT * FROM ESTADO";
+        ResultSet rs = conexao.ExecutarConsulta(sql);
         try {
-            Connection c = DriverManager.getConnection("jdbc:sqlite:bancocidades.db");
-            Statement stm = c.createStatement();
-            String sql = "SELECT * FROM ESTADO";
-            PreparedStatement psm = c.prepareStatement(sql);
-            ResultSet rs = psm.executeQuery();
             while (rs.next()){
                 Estado e = new Estado();
                 e.setId(rs.getInt("ID"));
@@ -32,7 +30,6 @@ public class Dados {
                 e.setSigla(rs.getString("SIGLA"));
                 lista.add(e);
             }
-        c.close();
         } catch (SQLException ex){
             Logger.getLogger(Dados.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -40,20 +37,17 @@ public class Dados {
     }
     public List<Cidade>getCidades(int idEstado){
         List<Cidade> lista2 = new ArrayList();
+        String sql = "SELECT * FROM CIDADE WHERE ESTADO_ID = ";
+        sql += String.valueOf(idEstado);
+        Conexao conexao = new Conexao();
+        ResultSet rs = conexao.ExecutarConsulta(sql);
         try {
-            Connection c = DriverManager.getConnection("jdbc:sqlite:bancocidades.db");
-            Statement stm = c.createStatement();
-            String sql = "SELECT * FROM CIDADE WHERE ESTADO_ID = ";
-            sql += String.valueOf(idEstado);
-            PreparedStatement psm = c.prepareStatement(sql);
-            ResultSet rs = psm.executeQuery();
             while (rs.next()){
                 Cidade city = new Cidade();
                 city.setId(rs.getInt("ID"));
                 city.setNome(rs.getString("NOME"));
                 lista2.add(city);
             }
-        c.close();
         } catch (SQLException ex){
             Logger.getLogger(Dados.class.getName()).log(Level.SEVERE, null, ex);
         }
