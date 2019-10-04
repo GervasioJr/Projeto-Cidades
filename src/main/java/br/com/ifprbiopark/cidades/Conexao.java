@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class Conexao {
     
     private static Conexao unique;
+    Connection c;
     
     private Conexao(){
         
@@ -30,7 +31,7 @@ public class Conexao {
     
     public ResultSet ExecutarConsulta(String sql){
         try {
-            Connection c = DriverManager.getConnection("jdbc:sqlite:bancocidades.db");
+            c = DriverManager.getConnection("jdbc:sqlite:bancocidades.db");
             Statement stm = c.createStatement();
             PreparedStatement psm = c.prepareStatement(sql);
             ResultSet rs = psm.executeQuery();
@@ -41,6 +42,13 @@ public class Conexao {
         }
         return null;
     }
-    
+
+    void close() {
+        try {
+            c.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

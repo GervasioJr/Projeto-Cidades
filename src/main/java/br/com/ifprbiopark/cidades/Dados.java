@@ -30,8 +30,11 @@ public class Dados {
                 e.setSigla(rs.getString("SIGLA"));
                 lista.add(e);
             }
+            
         } catch (SQLException ex){
             Logger.getLogger(Dados.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conexao.close();
         }
         return lista;
     }
