@@ -19,7 +19,7 @@ public class Dados {
     public List<Estado>getEstados(){
         
         List<Estado> lista = new ArrayList();
-        Conexao conexao = new Conexao();
+        Conexao conexao = Conexao.getInstance();
         String sql = "SELECT * FROM ESTADO";
         ResultSet rs = conexao.ExecutarConsulta(sql);
         try {
@@ -39,7 +39,7 @@ public class Dados {
         List<Cidade> lista2 = new ArrayList();
         String sql = "SELECT * FROM CIDADE WHERE ESTADO_ID = ";
         sql += String.valueOf(idEstado);
-        Conexao conexao = new Conexao();
+        Conexao conexao = Conexao.getInstance();
         ResultSet rs = conexao.ExecutarConsulta(sql);
         try {
             while (rs.next()){

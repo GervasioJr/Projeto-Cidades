@@ -14,16 +14,33 @@ import java.util.logging.Logger;
  * @author UFPR
  */
 public class Conexao {
+    
+    private static Conexao unique;
+    
+    private Conexao(){
+        
+    }
+    
+    public static Conexao getInstance(){
+        if (unique == null) {
+            unique = new Conexao();
+        }
+        return unique;
+    }
+    
     public ResultSet ExecutarConsulta(String sql){
         try {
             Connection c = DriverManager.getConnection("jdbc:sqlite:bancocidades.db");
             Statement stm = c.createStatement();
             PreparedStatement psm = c.prepareStatement(sql);
             ResultSet rs = psm.executeQuery();
+            //c.close();
             return rs;
         } catch (SQLException ex){
             Logger.getLogger(Dados.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+    
+    
 }
